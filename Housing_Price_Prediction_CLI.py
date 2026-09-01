@@ -1,5 +1,14 @@
+# -------------------------------------------------------------------
+# Import Library
+# -------------------------------------------------------------------
+
 import pandas as pd
 import pickle
+
+
+# -------------------------------------------------------------------
+# Taking Input
+# -------------------------------------------------------------------
 
 print("\n")
 print("="*50)
@@ -8,7 +17,7 @@ print("="*50,"\n")
 
 # House Area
 while True:
-    house_area = input("Enter Sqft Area of House : ").strip()
+    house_area = input("📐 Enter Sqft Area of House : ").strip()
     try:
         house_area = float(house_area)
         break
@@ -18,7 +27,7 @@ print("")
 
 # Bedroom     
 while True:
-    Bedrooms = input("Enter Number Bedrooms of House : ").strip()
+    Bedrooms = input("🛏️  Enter Number Bedrooms of House : ").strip()
     try:
         Bedrooms = float(Bedrooms)
         break
@@ -28,7 +37,7 @@ print("")
 
 # Bathroom
 while True:
-    Bathrooms = input("Enter Number Bathrooms of House : ").strip()
+    Bathrooms = input("🛁 Enter Number Bathrooms of House : ").strip()
     try:
         Bathrooms = float(Bathrooms)
         break
@@ -38,7 +47,7 @@ print("")
   
 # Floors              
 while True:
-    Floors = input("Enter Floors of House : ").strip()
+    Floors = input("🏢 Enter Floors of House : ").strip()
     try:
         Floors = float(Floors)
         break
@@ -48,7 +57,7 @@ print("")
 
 # Garage
 while True:
-    garage = input("Enter Numbers of Garage in House : ").strip()
+    garage = input("🚗 Enter Numbers of Garage in House : ").strip()
     try:
         garage = float(garage)
         break
@@ -58,7 +67,7 @@ print("")
 
 # Distance
 while True:
-    distance = input("Enter Distance from city of House : ").strip()
+    distance = input("🏙️  Enter Distance from city of House : ").strip()
     try:
         distance = float(distance)
         break
@@ -68,7 +77,7 @@ print("")
 
 # Condition
 while True:
-    condition = input("Rate a Condition House out of 5 : ").strip()
+    condition = input("⭐ Rate a Condition House out of 5 : ").strip()
     try:
         condition = float(condition)
         if 0 <= condition <= 5:
@@ -81,7 +90,7 @@ print("")
 
 # Location
 while True:
-    Location = input("Enter Location of House(Suburban,Urban,Rural) : ").title().strip()
+    Location = input("📍 Enter Location of House(Suburban,Urban,Rural) : ").title().strip()
     if Location == "Suburban" or Location == "Urban" or Location == "Rural":
         break
     else:
@@ -90,7 +99,7 @@ print("")
 
 # Garden
 while True:
-    garden = input("Enter Numbers of Garden in House : ").strip()
+    garden = input("🌳 Enter Numbers of Garden in House : ").strip()
     try:
         garden = float(garden)
         break
@@ -100,7 +109,7 @@ print("")
 
 # Pool
 while True:
-    pool = input("Enter Numbers of Pool in House : ").strip()
+    pool = input("🏊 Enter Numbers of Pool in House : ").strip()
     try:
         pool = float(pool)
         break
@@ -110,7 +119,7 @@ print("")
 
 # Parking
 while True:
-    parking = input("Enter Numbers of Parking in House : ").strip()
+    parking = input("🅿️  Enter Numbers of Parking in House : ").strip()
     try:
         parking = float(parking)
         break
@@ -120,13 +129,18 @@ print("")
 
 # Built Year
 while True:
-    year = input("Enter Year Built of House : ").strip()
+    year = input("📅 Enter Year Built of House : ").strip()
     try:
         year = float(year)
         break
     except ValueError:
         print("Invalid Input Please Enter Year Built of House Again..!!")
 print("")
+
+
+# -------------------------------------------------------------------
+# Save All input in data
+# -------------------------------------------------------------------
 
 data = {
     "area_sqft"             : house_area,
@@ -145,21 +159,27 @@ data = {
 
 data = pd.DataFrame(data,index = [0])
 
+
+# -------------------------------------------------------------------
+# Import Model and Load it
+# -------------------------------------------------------------------
+
 with open("model.pkl", "rb") as file:
     model_data = pickle.load(file)
 
-model = model_data["model"]
-oe = model_data["encoder"]
-ss = model_data["scaler"]
+pipeline = model_data["Pipeline"]
 
-data["location"] = oe.transform(data[["location"]]) # Encoding 
-data[["area_sqft","bedrooms","bathrooms","floors","garage","distance_from_city_km","condition","location","has_garden","has_pool","parking","year_built"]] = ss.transform(data) # Scale 
+y = pipeline.predict(data) # Predict
 
-y = model.predict(data) # Predict
+
+# -------------------------------------------------------------------
+# Print Prediction and others 
+# -------------------------------------------------------------------
+
 print("-"*50)
 print("                    Prediction")
 print("-"*50,"\n")
-print(f"Predicted Value of Your House is : {int(y[0])} Rs.💵","\n")
+print(f"Predicted Value of Your House is : ₹{int(y[0])} 💵","\n")
 print("-"*50)
-print("\nMAE       :  1549559.8337291335\nMSE       :  3668453649925.4487\nR2-Score  :  98.2980882745605 %")
+print("\nMAE       :  1549559.8337291332\nMSE       :  3668453649925.448\nR2-Score  :  98.2980882745605 %")
 print("\n","-"*50)

@@ -1,20 +1,29 @@
-# Import All Library which we have needed
+# -------------------------------------------------------------------
+# Import All Library which we needed
+# -------------------------------------------------------------------
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression,Ridge
 from sklearn.preprocessing import StandardScaler,OrdinalEncoder
 from sklearn.metrics import r2_score,mean_absolute_error,mean_squared_error
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
 import pickle
 
 
+# -------------------------------------------------------------------
+# Load Data from Downloads Folder
+# -------------------------------------------------------------------
 
-# Taking Data from Downloads Folder
 
 df = pd.read_csv("/home/yash/Downloads/house_price_prediction_dataset_3000_fixed.csv")
 df = df.drop(columns = ["age_years"])
 
 
+# -------------------------------------------------------------------
 # Fill missing values in DataFrame 
+# -------------------------------------------------------------------
 
 # Fill all missing value in Location, Garage and conditon column by "Missing" word, by "0" and by median
 df["location"] = df["location"].fillna("Missing")
@@ -63,37 +72,41 @@ test_bathroom_predictions = lr.predict(bathroom_test_x_pred)
 x_test.loc[x_test["bathrooms"].isna(),"bathrooms"] = test_bathroom_predictions
 
 
-# Apply Ordinal Encoding to convert categorical data in to numerical 
+# ----------------------------------------------------------------------------------------------------
+# Apply Ordinal Encoding to convert categorical data in to numerical and StandardScaler to Scale data
+# ----------------------------------------------------------------------------------------------------
 
-oe = OrdinalEncoder(categories=[['Missing', 'Rural', 'Urban', 'Suburban']])
+trf = ColumnTransformer(
+    transformers=[
+        ("Encoding",OrdinalEncoder(categories=[['Missing', 'Rural', 'Urban', 'Suburban']]),[7]),
+        ("Scale",StandardScaler(),[0,5,11])
 
-oe.fit(x_train[["location"]])
-x_train["location"] = oe.transform(x_train[["location"]])
-x_test["location"] = oe.transform(x_test[["location"]])
+        ],
+    remainder="passthrough")
 
-x_train = pd.DataFrame(x_train)
-x_test = pd.DataFrame(x_test)
+# -------------------------------------------------------------------
+# Make Pipline 
+# -------------------------------------------------------------------
 
-
-# Apply StandardScaler to Scale data
-
-ss = StandardScaler()
-
-x_train[["area_sqft","bedrooms","bathrooms","floors","garage","distance_from_city_km","condition","location","has_garden","has_pool","parking","year_built"]] = ss.fit_transform(x_train)
-x_test[["area_sqft","bedrooms","bathrooms","floors","garage","distance_from_city_km","condition","location","has_garden","has_pool","parking","year_built"]] = ss.transform(x_test)
+Pipeline = Pipeline([
+     ("trf1",trf),
+     ("Ridge",Ridge(alpha=15))
+    ])
 
 
-# Apply Ridge with alpha 15 to train a model 
+# -------------------------------------------------------------------
+# Apply Pipeline 
+# -------------------------------------------------------------------
 
-r = Ridge(alpha = 15)
-r.fit(x_train,y_train)
+Pipeline.fit(x_train,y_train)
 
+
+# -------------------------------------------------------------------
 # Save a Model 
+# -------------------------------------------------------------------
 
 model_data = {
-    "model": r,
-    "encoder": oe,
-    "scaler": ss
+    "Pipeline" : Pipeline
 }
 
 with open("model.pkl", "wb") as file:
@@ -101,9 +114,12 @@ with open("model.pkl", "wb") as file:
 
 print("\nModel saved successfully!")
 
-# Predict Output and find R2 Score
 
-y_pred = pd.DataFrame(r.predict(x_test))
+# -------------------------------------------------------------------
+# Predict Output and find R2 Score
+# -------------------------------------------------------------------
+
+y_pred = pd.DataFrame(Pipeline.predict(x_test))
 print("MAE       : ",mean_absolute_error(y_test,y_pred))
 print("MSE       : ",mean_squared_error(y_test,y_pred))
 print("R2-Score  : ",r2_score(y_test,y_pred)*100,"%")
