@@ -164,7 +164,7 @@ data = pd.DataFrame(data,index = [0])
 # Import Model and Load it
 # -------------------------------------------------------------------
 
-with open("model.pkl", "rb") as file:
+with open("Housing_Price_Prediction/model/model.pkl", "rb") as file:
     model_data = pickle.load(file)
 
 pipeline = model_data["Pipeline"]
@@ -181,5 +181,5 @@ print("                    Prediction")
 print("-"*50,"\n")
 print(f"Predicted Value of Your House is : ₹{int(y[0])} 💵","\n")
 print("-"*50)
-print("\nMAE       :  1549559.8337291332\nMSE       :  3668453649925.448\nR2-Score  :  98.2980882745605 %")
+print("\nMAE                 :  1444996.2531460086\nMSE                 :  3241236366888.3535\nR2-Score            :  98.49628789017403 %\nCross Validation R² :  98.59268268002552 % ")
 print("\n","-"*50)
