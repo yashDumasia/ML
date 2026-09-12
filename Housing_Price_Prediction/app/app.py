@@ -4,19 +4,43 @@ import pickle
 
 st.title("House🏠 Price💰 Prediction")
 
+st.divider()
 
-Area = st.number_input("📐 Enter Sqft Area of House :",min_value=300)
-Bedroom = st.slider("🛏️  Enter Number Bedrooms of House :",1,20)
-Bathroom = st.slider("🛁 Enter Number Bathrooms of House :",1,20)
-Floor = st.slider("🏢 Enter Floors of House :",0,200)
-Garage = st.slider("🚗 Enter Numbers of Garage in House :",0,10)
-Distance = st.number_input("🏙️  Enter Distance from city of House(km) :",min_value=0)
-Condition = st.number_input("⭐ Rate a Condition House out of 5 :",min_value=0.0,max_value=5.0)
-Location = st.radio("📍 Location :",["Suburban","Urban","Rural"])
-Garden = st.radio("🌳 Has Garden :",["Yes","No"])
-Pool = st.radio("🏊 Has Pool :",["Yes","No"])
-Parking = st.radio("🅿️ Has Parking :",["Yes","No"])
-Built_year = st.number_input("📅 Enter Year Built of House :",min_value=1900,max_value=2026)
+
+Area = st.number_input("📐 Enter Sqft Area of House :",min_value=300,max_value=50000,value=1500)
+
+cols1, cols2 = st.columns(2)
+with cols1:
+    Bedroom = st.number_input("🛏️  Enter Number Bedrooms of House :",min_value=1,max_value=20,value=2)
+with cols2:
+    Bathroom = st.number_input("🛁 Enter Number Bathrooms of House :",min_value=1,max_value=20,value=2)
+    
+cols1, cols2 = st.columns(2) 
+with cols1:
+    Floor = st.number_input("🏢 Enter Floors of House :",min_value=0,max_value=200)
+with cols2:
+    Garage = st.number_input("🚗 Enter Numbers of Garage in House :",min_value=0,max_value=10)
+    
+cols1, cols2 = st.columns(2)
+with cols1:
+    Distance = st.number_input("🏙️  Enter Distance from city of House(km) :",min_value=0)
+with cols2:
+    Condition = st.number_input("⭐ Rate a Condition House out of 5 :",min_value=0.0,max_value=5.0,step=0.05,value=2.5)
+    
+cols1,cols2,cols3,cols4 = st.columns(4)
+with cols1:
+    Location = st.radio("📍 Location :",["Suburban","Urban","Rural"])
+with cols2:
+    Garden = st.radio("🌳 Has Garden :",["Yes","No"])
+with cols3:
+    Pool = st.radio("🏊 Has Pool :",["Yes","No"])
+with cols4:
+    Parking = st.radio("🅿️ Has Parking :",["Yes","No"])
+
+cols1,cols2,cols3= st.columns(3)
+with cols1:
+    Built_year = st.number_input("📅 Enter Year Built of House :",min_value=1900,max_value=2026,value=2000)
+
 if st.button("Predict Price"):
     if Garden == "Yes":
         Garden = 1
@@ -57,8 +81,25 @@ if st.button("Predict Price"):
 
     y = pipeline.predict(data) # Predict
 
+    st.divider()
+
+
     st.success(f"Predicted Value of Your House is : ₹{int(y[0])} 💵")
-    st.success("MAE : 1444996.2531460086\n\n"
-               "MSE : 3241236366888.3535\n\n"
-               "R2-Score : 98.49628789017403 %\n\n"
-               "Cross Validation R² : 98.59268268002552 % \n\n")
+    
+    st.divider()
+    
+    cols1, cols2 = st.columns(2)
+    with cols1:
+        st.metric("MAE :","1.444*10^6")
+    with cols2:
+        st.metric("MSE :","3.241*10^12")
+
+    cols3, cols4 = st.columns(2)
+    with cols3:
+        st.metric("R2-Score :","98.50 %")
+    with cols4:
+        st.metric("Cross Validation R² :","98.59 %")
+    
+    st.divider()
+        
+    st.markdown("Predicted House Value is Depend on training data.")
