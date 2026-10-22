@@ -4,6 +4,7 @@ import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score 
+from sklearn.pipeline import Pipeline
 
 
 ###############################################
@@ -11,7 +12,7 @@ from sklearn.metrics import accuracy_score
 ###############################################
 df = pd.read_csv("/home/yash/ML/Customer_Churn_Prediction/data/customer_churn_prediction_dataset.csv")
 df = df.drop(columns=["customerID"])
-x_train, x_test, y_train, y_test = train_test_split(df.drop(columns=["Churn"]), df["Churn"], test_size=0.2)
+x_train, x_test, y_train, y_test = train_test_split(df.drop(columns=["Churn"]), df["Churn"], test_size=0.2,random_state=0)
 
 
 ################################################
@@ -22,31 +23,38 @@ x_train, x_test, y_train, y_test = train_test_split(df.drop(columns=["Churn"]), 
 sys.path.append("/home/yash/ML/Customer_Churn_Prediction")
 
 # Import your preprocessing class
-from preprocessing.Preprocessing import Preprocessing_data
+from preprocessing.Preprocessing import Preprocessing_function
 
-preprocessing = Preprocessing_data(x_train, x_test)
-preprocessing.missing_values()
-preprocessing.Scaling()
-preprocessing.Encoding() 
-x_train, x_test = preprocessing.Get_Processed_Data()
-
+pf = Preprocessing_function()
 
 ################################################
-# Train the Logistic Regression model
+# Apply Logistic Regression and Preprocessing using Pipline 
 ################################################
 
-model = LogisticRegression()
-model.fit(x_train, y_train) 
+lr = LogisticRegression()
 
+ct = Pipeline(
+    [
+    ("Preprocessing",pf),
+    ("LogisticRegression",lr)
+    ]
+)
 
-###############################################
-# Predict for x_test and finds the accuracy score
-###############################################
+ct.fit(x_train,y_train)
 
-y_pred = model.predict(x_test)
-print(accuracy_score(y_test,y_pred)*100)
+################################################
+# Predict y_pred by x_test & find accuracy score 
+################################################
 
-with open("Customer_Churn_Prediction/model/model.pkl", "wb") as file:
-    pickle.dump(model, file)
+y_pred = ct.predict(x_test)
 
-print("\nModel saved successfully!")
+################################################
+# Dump Pipline as Pickel file 
+################################################
+
+print(accuracy_score(y_true=y_test, y_pred=y_pred)*100)
+
+with open ("Customer_Churn_Prediction/model/model.pkl","wb") as file:
+    pickle.dump(ct,file)
+    
+print("\nModel saved successfully..!!")

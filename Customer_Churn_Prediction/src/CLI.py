@@ -1,9 +1,14 @@
-# Take all input use it like x_train and make one fake x_test and use the Preprocessing_data class to preprocess both x_train and x_test. 
-# Now from dump model predict the output for data which is taken as input and return the output.
+################################################
+# Import all Library which are needed 
+################################################
+
 from rich.console import Console
 import pandas as pd
-import sys
 import pickle
+
+################################################
+# Take all inputs 
+################################################
 
 c = Console()
 c.print("="*75, style="bold dark_green")
@@ -18,6 +23,10 @@ c.print("-"*75,"\n", style="bold dark_green")
 while True:
     gender = input("Enter Gender of customer(for Male M and for Female F) : ").strip().upper()
     if gender == "M" or gender == "F":
+        if gender == "M":
+            gender = "Male"
+        else:
+            gender = "Female"
         break
     else:
         c.print("❌  Invalid Input Please Enter Gender Again..!!  ❌", style="bold bright_red")
@@ -25,7 +34,7 @@ print("")
 
 # SeniorCitizen
 while True:
-    SeniorCitizen = input("Is customer seniorcitizen or not(Yes or No (Y/N)) :").strip().upper()
+    SeniorCitizen = input("Is customer seniorcitizen or not(Yes or No (Y/N)) : ").strip().upper()
     if SeniorCitizen == "Y" or SeniorCitizen == "N":
         if SeniorCitizen == "Y":
             SeniorCitizen = 1
@@ -86,12 +95,14 @@ print("")
 
 # MultipleLines
 while True:
-    MultipleLines = input("Is Customer Have Multiple Lines or Not (Yes or No (Y/N)) : ").strip().upper()
-    if MultipleLines == "Y" or MultipleLines == "N":
+    MultipleLines = input("Is Customer Have Multiple Lines or Not or No phone service (Yes or No (Y/N/NPS)) : ").strip().upper()
+    if MultipleLines == "Y" or MultipleLines == "N" or MultipleLines == "NPS":
         if MultipleLines == "Y":
             MultipleLines = "Yes"
-        else:
+        elif MultipleLines == "N":
             MultipleLines = "No"
+        elif MultipleLines == "NPS":
+            MultipleLines = "No phone service"
         break
     else:
         c.print("❌  Invalid Input Please Enter Multiple Lines Again..!!  ❌", style="bold bright_red")      
@@ -259,44 +270,41 @@ print("")
 
 customerID = "CUST0000"
 
-x_train = {
-    "customerID" : customerID,
-    "gender" : gender,
-    "SeniorCitizen" : SeniorCitizen,
-    "Partner" : Partner,
-    "Dependents" : Dependents,
-    "tenure" : tenure,
-    "PhoneService" : PhoneService,
-    "MultipleLines" : MultipleLines,
-    "InternetService" : InternetService,
-    "OnlineSecurity" : OnlineSecurity,
-    "OnlineBackup" : OnlineBackup,
-    "DeviceProtection" : DeviceProtection,
-    "TechSupport" : TechSupport,
-    "StreamingTV" : StreamingTV,
-    "StreamingMovies" : StreamingMovies,
-    "Contract" : Contract,
-    "PaperlessBilling" : PaperlessBilling,
-    "PaymentMethod" : PaymentMethod,
-    "MonthlyCharges" : MonthlyCharges,
-    "TotalCharges" : TotalCharges
-    }
+################################################
+# Convert all inputs in DataFrame 
+################################################
 
-x_train = pd.DataFrame(x_train,index = [0])
+customer_data = pd.DataFrame({
+    "gender": [gender],
+    "SeniorCitizen": [SeniorCitizen],
+    "Partner": [Partner],
+    "Dependents": [Dependents],
+    "tenure": [tenure],
+    "PhoneService": [PhoneService],
+    "MultipleLines": [MultipleLines],
+    "InternetService": [InternetService],
+    "OnlineSecurity": [OnlineSecurity],
+    "OnlineBackup": [OnlineBackup],
+    "DeviceProtection": [DeviceProtection],
+    "TechSupport": [TechSupport],
+    "StreamingTV": [StreamingTV],
+    "StreamingMovies": [StreamingMovies],
+    "Contract": [Contract],
+    "PaperlessBilling": [PaperlessBilling],
+    "PaymentMethod": [PaymentMethod],
+    "MonthlyCharges": [MonthlyCharges],
+    "TotalCharges": [TotalCharges],
+})
 
-x_test = x_train.copy() # Create a fake x_test for preprocessing
+################################################ 
+# Load Model and predict Output
+################################################
 
-sys.path.append("/home/yash/ML/Customer_Churn_Prediction")
+with open ("Customer_Churn_Prediction/model/model.pkl","rb") as file:
+    model = pickle.load(file)
 
-from preprocessing.Preprocessing import Preprocessing_data
-
-preprocessing = Preprocessing_data(x_train, x_test)
-preprocessing.Scaling()
-preprocessing.Encoding() 
-x_train, x_test = preprocessing.Get_Processed_Data()
-
-with open("Customer_Churn_Prediction/model/model.pkl", "rb") as file:
-        model_classification = pickle.load(file)
-
-y = model_classification.predict(x_train)
-print(y)
+if model.predict(customer_data) == "No":
+    c.print("There are 78.17 % chance that the Customer will Churn.",style="Red1")
+else :
+    c.print("There are 78.17 % chance that the Customer will not Churn.",style="Green1")
+    
