@@ -190,7 +190,7 @@ print("")
 
 # StreamingMovies                                                       
 while True:
-    StreamingMovies = input("Is StreamingMovies Available or Not or No internet service (Yes or No (Y/N/NIS)) : ").strip().upper()
+    StreamingMovies = input("Is StreamingMovies Available or Not or No internet service (Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
     if StreamingMovies == "Y" or StreamingMovies == "N" or StreamingMovies == "NIS":
         if StreamingMovies == "Y":
             StreamingMovies = "Yes"
