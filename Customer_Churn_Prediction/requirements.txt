@@ -1,0 +1,11 @@
+# Data handling
+pandas
+
+# Machine Learning
+scikit-learn
+
+# Web Application
+streamlit
+
+# CLI Styling
+rich
