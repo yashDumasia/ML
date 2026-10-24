@@ -12,16 +12,16 @@ import pickle
 
 c = Console()
 c.print("="*75, style="bold dark_green")
-c.print("                     #################################", style="bold bright_white")
-c.print("                     ### Customer Churn Prediction ###", style="bold bright_white")
-c.print("                     #################################", style="bold bright_white")
+c.print("                     #######################################", style="bold bright_white")
+c.print("                     ### 📊 Customer Churn Prediction 📊 ###", style="bold bright_white")
+c.print("                     #######################################", style="bold bright_white")
 c.print("="*75,"\n", style="bold dark_green")
 c.print("👋 Welcome to Customer Churn Prediction System..!!\n",style="yellow1")
 c.print("-"*75,"\n", style="bold dark_green")
 
 # gender
 while True:
-    gender = input("Enter Gender of customer(for Male M and for Female F) : ").strip().upper()
+    gender = input("Enter Gender 👤 of customer(for Male M and for Female F) : ").strip().upper()
     if gender == "M" or gender == "F":
         if gender == "M":
             gender = "Male"
@@ -34,7 +34,7 @@ print("")
 
 # SeniorCitizen
 while True:
-    SeniorCitizen = input("Is customer seniorcitizen or not(Yes or No (Y/N)) : ").strip().upper()
+    SeniorCitizen = input("Is customer seniorcitizen 👴 or not(Yes or No (Y/N)) : ").strip().upper()
     if SeniorCitizen == "Y" or SeniorCitizen == "N":
         if SeniorCitizen == "Y":
             SeniorCitizen = 1
@@ -47,7 +47,7 @@ print("")
 
 # Partner  
 while True:
-    Partner = input("Is customer has partner or Not (Yes or No (Y/N)) : ").strip().upper()
+    Partner = input("Is customer has partner 💑 or Not (Yes or No (Y/N)) : ").strip().upper()
     if Partner == "Y" or Partner == "N":
         if Partner == "Y":
             Partner = "Yes"
@@ -60,7 +60,7 @@ print("")
 
 # Dependents
 while True:
-    Dependents = input("Is Customer Dependent or Not (Yes or No (Y/N)) : ").strip().upper()
+    Dependents = input("Is Customer Dependent 👨‍👩‍👧 or Not (Yes or No (Y/N)) : ").strip().upper()
     if Dependents == "Y" or Dependents == "N":
         if Dependents == "Y":
             Dependents = "Yes"
@@ -74,7 +74,7 @@ print("")
 # Tenure
 while True:
     try:
-        tenure = int(input("Enter Customer Tenure (in years) : ").strip())
+        tenure = int(input("Enter Customer Tenure 📅 (in years) : ").strip())
         break
     except ValueError:
         c.print("❌  Invalid Input Please Enter Tenure Again..!!  ❌", style="bold bright_red")
@@ -82,7 +82,7 @@ print("")
 
 # PhoneService
 while True:
-    PhoneService = input("Is Customer Have Phoneservice or Not (Yes or No (Y/N)) : ").strip().upper()
+    PhoneService = input("Is Customer Have Phoneservice 📱 or Not (Yes or No (Y/N)) : ").strip().upper()
     if PhoneService == "Y" or PhoneService == "N":
         if PhoneService == "Y":
             PhoneService = "Yes"
@@ -95,7 +95,7 @@ print("")
 
 # MultipleLines
 while True:
-    MultipleLines = input("Is Customer Have Multiple Lines or Not or No phone service (Yes or No (Y/N/NPS)) : ").strip().upper()
+    MultipleLines = input("Is Customer Have Multiple Lines ☎️  or Not or No phone service (Yes or No (Y/N/NPS)) : ").strip().upper()
     if MultipleLines == "Y" or MultipleLines == "N" or MultipleLines == "NPS":
         if MultipleLines == "Y":
             MultipleLines = "Yes"
@@ -110,7 +110,7 @@ print("")
 
 # InternetService
 while True:
-    InternetService = input("Choose Internet Service (DSL, Fiber optic, No) : ").strip()
+    InternetService = input("Choose Internet Service 🌐 (DSL, Fiber optic, No) : ").strip()
     if InternetService in ["DSL", "Fiber optic", "No"]:
         break
     else:
@@ -119,7 +119,7 @@ print("")
 
 # OnlineSecurity
 while True:
-    OnlineSecurity = input("Is OnlineSecurity Available or Not (Yes or No (Y/N)) : ").strip().upper()
+    OnlineSecurity = input("Is OnlineSecurity 🔐 Available or Not (Yes or No (Y/N)) : ").strip().upper()
     if OnlineSecurity == "Y" or OnlineSecurity == "N":
         if OnlineSecurity == "Y":
             OnlineSecurity = "Yes"
@@ -132,7 +132,7 @@ print("")
 
 # OnlineBackup
 while True:
-    OnlineBackup = input("Is OnlineBackup Available or Not or No internet service(Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
+    OnlineBackup = input("Is OnlineBackup ☁️ Available or Not or No internet service(Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
     if OnlineBackup == "Y" or OnlineBackup == "N" or OnlineBackup == "NIS":
         if OnlineBackup == "Y":
             OnlineBackup = "Yes"
@@ -147,7 +147,7 @@ print("")
 
 # DeviceProtection
 while True:
-    DeviceProtection = input("Is DeviceProtection Available or Not or No internet service(Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
+    DeviceProtection = input("Is Devic Protection 🛡️  Available or Not or No internet service(Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
     if DeviceProtection == "Y" or DeviceProtection == "N" or DeviceProtection == "NIS":
         if DeviceProtection == "Y":
             DeviceProtection = "Yes"
@@ -162,7 +162,7 @@ print("")
 
 # TechSupport
 while True:
-    TechSupport = input("Is TechSupport Available or Not (Yes or No (Y/N)) : ").strip().upper()
+    TechSupport = input("Is Tech Support 🧑‍💻 Available or Not (Yes or No (Y/N)) : ").strip().upper()
     if TechSupport == "Y" or TechSupport == "N":
         if TechSupport == "Y":
             TechSupport = "Yes"
@@ -175,7 +175,7 @@ print("")
 
 # StreamingTV
 while True:
-    StreamingTV = input("Is StreamingTV Available or Not or No internet service (Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
+    StreamingTV = input("Is StreamingTV 📺 Available or Not or No internet service (Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
     if StreamingTV == "Y" or StreamingTV == "N" or StreamingTV == "NIS":
         if StreamingTV == "Y":
             StreamingTV = "Yes"
@@ -190,7 +190,7 @@ print("")
 
 # StreamingMovies                                                       
 while True:
-    StreamingMovies = input("Is StreamingMovies Available or Not or No internet service (Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
+    StreamingMovies = input("Is Streaming Movies 🎬 Available or Not or No internet service (Yes or No or No internet service (Y/N/NIS)) : ").strip().upper()
     if StreamingMovies == "Y" or StreamingMovies == "N" or StreamingMovies == "NIS":
         if StreamingMovies == "Y":
             StreamingMovies = "Yes"
@@ -205,7 +205,7 @@ print("")
 
 # Contract
 while True:
-    Contract = input("Contract (Month-to-month(M2M), Two year(2Y), One year(1Y)) : ").strip().upper()
+    Contract = input("Contract 📝 (Month-to-month(M2M), Two year(2Y), One year(1Y)) : ").strip().upper()
     if Contract == "M2M" or Contract == "2Y" or Contract == "1Y":
         if Contract == "M2M":
             Contract = "Month-to-month"
@@ -220,7 +220,7 @@ print("")
 
 # PaperlessBilling
 while True:
-    PaperlessBilling = input("Is PaperlessBilling Available or Not (Yes or No (Y/N)) : ").strip().upper()
+    PaperlessBilling = input("Is PaperlessBilling 📄 Available or Not (Yes or No (Y/N)) : ").strip().upper()
     if PaperlessBilling == "Y" or PaperlessBilling == "N":
         if PaperlessBilling == "Y":
             PaperlessBilling = "Yes"
@@ -233,7 +233,7 @@ print("")
 
 # PaymentMethod
 while True:
-    PaymentMethod = input("Payment Method (Bank transfer (BT), Electronic check (EC), Credit card (CC), Mailed check (MC)) : ").strip().upper()
+    PaymentMethod = input("Payment Method 💳 (Bank transfer (BT), Electronic check (EC), Credit card (CC), Mailed check (MC)) : ").strip().upper()
     if PaymentMethod == "BT" or PaymentMethod == "EC" or PaymentMethod == "CC" or PaymentMethod == "MC":
         if PaymentMethod == "BT":
             PaymentMethod = "Bank transfer"
@@ -250,7 +250,7 @@ print("")
 
 # MonthlyCharges
 while True:
-    MonthlyCharges = input("Enter Monthly Charges : ").strip()
+    MonthlyCharges = input("Enter Monthly Charges 💵 : ").strip()
     try:
         MonthlyCharges = float(MonthlyCharges)
         break
@@ -260,15 +260,13 @@ print("")
 
 # TotalCharges
 while True:
-    TotalCharges = input("Enter Total Charges : ").strip()
+    TotalCharges = input("Enter Total Charges 🧾 : ").strip()
     try:
         TotalCharges = float(TotalCharges)
         break
     except ValueError:
         c.print("❌  Invalid Input Please Enter Total Charges Again..!!  ❌", style="bold bright_red")
 print("")
-
-customerID = "CUST0000"
 
 ################################################
 # Convert all inputs in DataFrame 
