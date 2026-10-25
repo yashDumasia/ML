@@ -26,8 +26,9 @@ df = df.drop(columns = ["age_years"])
 # -------------------------------------------------------------------
 
 # Fill all missing value in Garage and conditon column by "0" and by median
-df["garage"] = df["garage"].fillna("0")
+df["garage"] = df["garage"].fillna(0)
 df["condition"] = df["condition"].fillna(df["condition"].median())
+df["location"] = df["location"].fillna(df["location"].mode()[0])
 
 
 # Fill all missing value in Bathrooms column by predicting it's value 
